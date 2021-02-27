@@ -1,11 +1,11 @@
 package com.oheia.mall.controller;
 
-import com.ohei.framework.bean.RespBean;
-import com.ohei.framework.util.JsonUtil;
 import com.oheia.mall.common.api.CommonPage;
 import com.oheia.mall.common.api.CommonResult;
 import com.oheia.mall.mbg.model.PmsBrand;
 import com.oheia.mall.service.PmsBrandService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * 品牌管理Controller
  */
+@Api(tags = "品牌管理")
 @Controller
 @RequestMapping("/brand")
 @Slf4j
@@ -25,6 +26,7 @@ public class PmsBrandController {
     @Resource
     private PmsBrandService pmsBrandService;
 
+    @ApiOperation("品牌列表")
     @RequestMapping(value = "listAll", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<PmsBrand>> getBrandList() {
