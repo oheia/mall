@@ -3,12 +3,13 @@
 <mapper namespace="com.oheia.mall.mbg.mapper.PmsBrandMapper">
   <resultMap id="BaseResultMap" type="com.oheia.mall.mbg.model.PmsBrand">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="first_letter" jdbcType="VARCHAR" property="firstLetter" />
-    <result column="sort" jdbcType="TINYINT" property="sort" />
-    <result column="factory_status" jdbcType="BIT" property="factoryStatus" />
-    <result column="show_status" jdbcType="BIT" property="showStatus" />
-    <result column="product_count" jdbcType="BIGINT" property="productCount" />
-    <result column="product_comment_count" jdbcType="BIGINT" property="productCommentCount" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="factory_status" jdbcType="INTEGER" property="factoryStatus" />
+    <result column="show_status" jdbcType="INTEGER" property="showStatus" />
+    <result column="product_count" jdbcType="INTEGER" property="productCount" />
+    <result column="product_comment_count" jdbcType="INTEGER" property="productCommentCount" />
     <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="big_pic" jdbcType="VARCHAR" property="bigPic" />
   </resultMap>
@@ -74,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, first_letter, sort, factory_status, show_status, product_count, product_comment_count, 
+    id, name, first_letter, sort, factory_status, show_status, product_count, product_comment_count, 
     logo, big_pic
   </sql>
   <sql id="Blob_Column_List">
@@ -132,14 +133,14 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into pms_brand (first_letter, sort, factory_status, 
-      show_status, product_count, product_comment_count, 
-      logo, big_pic, brand_story
-      )
-    values (#{firstLetter,jdbcType=VARCHAR}, #{sort,jdbcType=TINYINT}, #{factoryStatus,jdbcType=BIT}, 
-      #{showStatus,jdbcType=BIT}, #{productCount,jdbcType=BIGINT}, #{productCommentCount,jdbcType=BIGINT}, 
-      #{logo,jdbcType=VARCHAR}, #{bigPic,jdbcType=VARCHAR}, #{brandStory,jdbcType=LONGVARCHAR}
-      )
+    insert into pms_brand (name, first_letter, sort, 
+      factory_status, show_status, product_count, 
+      product_comment_count, logo, big_pic, 
+      brand_story)
+    values (#{name,jdbcType=VARCHAR}, #{firstLetter,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{factoryStatus,jdbcType=INTEGER}, #{showStatus,jdbcType=INTEGER}, #{productCount,jdbcType=INTEGER}, 
+      #{productCommentCount,jdbcType=INTEGER}, #{logo,jdbcType=VARCHAR}, #{bigPic,jdbcType=VARCHAR}, 
+      #{brandStory,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.oheia.mall.mbg.model.PmsBrand">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -147,6 +148,9 @@
     </selectKey>
     insert into pms_brand
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
       <if test="firstLetter != null">
         first_letter,
       </if>
@@ -176,23 +180,26 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
       <if test="firstLetter != null">
         #{firstLetter,jdbcType=VARCHAR},
       </if>
       <if test="sort != null">
-        #{sort,jdbcType=TINYINT},
+        #{sort,jdbcType=INTEGER},
       </if>
       <if test="factoryStatus != null">
-        #{factoryStatus,jdbcType=BIT},
+        #{factoryStatus,jdbcType=INTEGER},
       </if>
       <if test="showStatus != null">
-        #{showStatus,jdbcType=BIT},
+        #{showStatus,jdbcType=INTEGER},
       </if>
       <if test="productCount != null">
-        #{productCount,jdbcType=BIGINT},
+        #{productCount,jdbcType=INTEGER},
       </if>
       <if test="productCommentCount != null">
-        #{productCommentCount,jdbcType=BIGINT},
+        #{productCommentCount,jdbcType=INTEGER},
       </if>
       <if test="logo != null">
         #{logo,jdbcType=VARCHAR},
@@ -217,23 +224,26 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
       <if test="record.firstLetter != null">
         first_letter = #{record.firstLetter,jdbcType=VARCHAR},
       </if>
       <if test="record.sort != null">
-        sort = #{record.sort,jdbcType=TINYINT},
+        sort = #{record.sort,jdbcType=INTEGER},
       </if>
       <if test="record.factoryStatus != null">
-        factory_status = #{record.factoryStatus,jdbcType=BIT},
+        factory_status = #{record.factoryStatus,jdbcType=INTEGER},
       </if>
       <if test="record.showStatus != null">
-        show_status = #{record.showStatus,jdbcType=BIT},
+        show_status = #{record.showStatus,jdbcType=INTEGER},
       </if>
       <if test="record.productCount != null">
-        product_count = #{record.productCount,jdbcType=BIGINT},
+        product_count = #{record.productCount,jdbcType=INTEGER},
       </if>
       <if test="record.productCommentCount != null">
-        product_comment_count = #{record.productCommentCount,jdbcType=BIGINT},
+        product_comment_count = #{record.productCommentCount,jdbcType=INTEGER},
       </if>
       <if test="record.logo != null">
         logo = #{record.logo,jdbcType=VARCHAR},
@@ -252,12 +262,13 @@
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update pms_brand
     set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
       first_letter = #{record.firstLetter,jdbcType=VARCHAR},
-      sort = #{record.sort,jdbcType=TINYINT},
-      factory_status = #{record.factoryStatus,jdbcType=BIT},
-      show_status = #{record.showStatus,jdbcType=BIT},
-      product_count = #{record.productCount,jdbcType=BIGINT},
-      product_comment_count = #{record.productCommentCount,jdbcType=BIGINT},
+      sort = #{record.sort,jdbcType=INTEGER},
+      factory_status = #{record.factoryStatus,jdbcType=INTEGER},
+      show_status = #{record.showStatus,jdbcType=INTEGER},
+      product_count = #{record.productCount,jdbcType=INTEGER},
+      product_comment_count = #{record.productCommentCount,jdbcType=INTEGER},
       logo = #{record.logo,jdbcType=VARCHAR},
       big_pic = #{record.bigPic,jdbcType=VARCHAR},
       brand_story = #{record.brandStory,jdbcType=LONGVARCHAR}
@@ -268,12 +279,13 @@
   <update id="updateByExample" parameterType="map">
     update pms_brand
     set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
       first_letter = #{record.firstLetter,jdbcType=VARCHAR},
-      sort = #{record.sort,jdbcType=TINYINT},
-      factory_status = #{record.factoryStatus,jdbcType=BIT},
-      show_status = #{record.showStatus,jdbcType=BIT},
-      product_count = #{record.productCount,jdbcType=BIGINT},
-      product_comment_count = #{record.productCommentCount,jdbcType=BIGINT},
+      sort = #{record.sort,jdbcType=INTEGER},
+      factory_status = #{record.factoryStatus,jdbcType=INTEGER},
+      show_status = #{record.showStatus,jdbcType=INTEGER},
+      product_count = #{record.productCount,jdbcType=INTEGER},
+      product_comment_count = #{record.productCommentCount,jdbcType=INTEGER},
       logo = #{record.logo,jdbcType=VARCHAR},
       big_pic = #{record.bigPic,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -283,23 +295,26 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.oheia.mall.mbg.model.PmsBrand">
     update pms_brand
     <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
       <if test="firstLetter != null">
         first_letter = #{firstLetter,jdbcType=VARCHAR},
       </if>
       <if test="sort != null">
-        sort = #{sort,jdbcType=TINYINT},
+        sort = #{sort,jdbcType=INTEGER},
       </if>
       <if test="factoryStatus != null">
-        factory_status = #{factoryStatus,jdbcType=BIT},
+        factory_status = #{factoryStatus,jdbcType=INTEGER},
       </if>
       <if test="showStatus != null">
-        show_status = #{showStatus,jdbcType=BIT},
+        show_status = #{showStatus,jdbcType=INTEGER},
       </if>
       <if test="productCount != null">
-        product_count = #{productCount,jdbcType=BIGINT},
+        product_count = #{productCount,jdbcType=INTEGER},
       </if>
       <if test="productCommentCount != null">
-        product_comment_count = #{productCommentCount,jdbcType=BIGINT},
+        product_comment_count = #{productCommentCount,jdbcType=INTEGER},
       </if>
       <if test="logo != null">
         logo = #{logo,jdbcType=VARCHAR},
@@ -315,12 +330,13 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.oheia.mall.mbg.model.PmsBrand">
     update pms_brand
-    set first_letter = #{firstLetter,jdbcType=VARCHAR},
-      sort = #{sort,jdbcType=TINYINT},
-      factory_status = #{factoryStatus,jdbcType=BIT},
-      show_status = #{showStatus,jdbcType=BIT},
-      product_count = #{productCount,jdbcType=BIGINT},
-      product_comment_count = #{productCommentCount,jdbcType=BIGINT},
+    set name = #{name,jdbcType=VARCHAR},
+      first_letter = #{firstLetter,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      factory_status = #{factoryStatus,jdbcType=INTEGER},
+      show_status = #{showStatus,jdbcType=INTEGER},
+      product_count = #{productCount,jdbcType=INTEGER},
+      product_comment_count = #{productCommentCount,jdbcType=INTEGER},
       logo = #{logo,jdbcType=VARCHAR},
       big_pic = #{bigPic,jdbcType=VARCHAR},
       brand_story = #{brandStory,jdbcType=LONGVARCHAR}
@@ -328,12 +344,13 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.oheia.mall.mbg.model.PmsBrand">
     update pms_brand
-    set first_letter = #{firstLetter,jdbcType=VARCHAR},
-      sort = #{sort,jdbcType=TINYINT},
-      factory_status = #{factoryStatus,jdbcType=BIT},
-      show_status = #{showStatus,jdbcType=BIT},
-      product_count = #{productCount,jdbcType=BIGINT},
-      product_comment_count = #{productCommentCount,jdbcType=BIGINT},
+    set name = #{name,jdbcType=VARCHAR},
+      first_letter = #{firstLetter,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      factory_status = #{factoryStatus,jdbcType=INTEGER},
+      show_status = #{showStatus,jdbcType=INTEGER},
+      product_count = #{productCount,jdbcType=INTEGER},
+      product_comment_count = #{productCommentCount,jdbcType=INTEGER},
       logo = #{logo,jdbcType=VARCHAR},
       big_pic = #{bigPic,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}

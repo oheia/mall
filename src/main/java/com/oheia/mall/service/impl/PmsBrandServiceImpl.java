@@ -5,7 +5,6 @@ import com.oheia.mall.mbg.mapper.PmsBrandMapper;
 import com.oheia.mall.mbg.model.PmsBrand;
 import com.oheia.mall.mbg.model.PmsBrandExample;
 import com.oheia.mall.service.PmsBrandService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

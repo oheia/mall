@@ -6,23 +6,23 @@ import java.io.Serializable;
 public class PmsBrand implements Serializable {
     private Long id;
 
+    private String name;
+
     @ApiModelProperty(value = "首字母")
     private String firstLetter;
 
-    @ApiModelProperty(value = "排序")
-    private Byte sort;
+    private Integer sort;
 
     @ApiModelProperty(value = "是否为品牌制造商：0->不是；1->是")
-    private Boolean factoryStatus;
+    private Integer factoryStatus;
 
-    @ApiModelProperty(value = "是否展示：0->不是；1->是")
-    private Boolean showStatus;
+    private Integer showStatus;
 
-    @ApiModelProperty(value = "库存")
-    private Long productCount;
+    @ApiModelProperty(value = "产品数量")
+    private Integer productCount;
 
-    @ApiModelProperty(value = "产品评论数")
-    private Long productCommentCount;
+    @ApiModelProperty(value = "产品评论数量")
+    private Integer productCommentCount;
 
     @ApiModelProperty(value = "品牌logo")
     private String logo;
@@ -43,6 +43,14 @@ public class PmsBrand implements Serializable {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getFirstLetter() {
         return firstLetter;
     }
@@ -51,43 +59,43 @@ public class PmsBrand implements Serializable {
         this.firstLetter = firstLetter;
     }
 
-    public Byte getSort() {
+    public Integer getSort() {
         return sort;
     }
 
-    public void setSort(Byte sort) {
+    public void setSort(Integer sort) {
         this.sort = sort;
     }
 
-    public Boolean getFactoryStatus() {
+    public Integer getFactoryStatus() {
         return factoryStatus;
     }
 
-    public void setFactoryStatus(Boolean factoryStatus) {
+    public void setFactoryStatus(Integer factoryStatus) {
         this.factoryStatus = factoryStatus;
     }
 
-    public Boolean getShowStatus() {
+    public Integer getShowStatus() {
         return showStatus;
     }
 
-    public void setShowStatus(Boolean showStatus) {
+    public void setShowStatus(Integer showStatus) {
         this.showStatus = showStatus;
     }
 
-    public Long getProductCount() {
+    public Integer getProductCount() {
         return productCount;
     }
 
-    public void setProductCount(Long productCount) {
+    public void setProductCount(Integer productCount) {
         this.productCount = productCount;
     }
 
-    public Long getProductCommentCount() {
+    public Integer getProductCommentCount() {
         return productCommentCount;
     }
 
-    public void setProductCommentCount(Long productCommentCount) {
+    public void setProductCommentCount(Integer productCommentCount) {
         this.productCommentCount = productCommentCount;
     }
 
@@ -122,6 +130,7 @@ public class PmsBrand implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", name=").append(name);
         sb.append(", firstLetter=").append(firstLetter);
         sb.append(", sort=").append(sort);
         sb.append(", factoryStatus=").append(factoryStatus);
