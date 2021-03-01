@@ -72,19 +72,36 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
      * 设置授权信息
      */
     private List<SecurityScheme> securitySchemes() {
-        ApiKey apiKey = new ApiKey("BASE_TOKEN", "token", In.HEADER.toValue());
-        return Collections.singletonList(apiKey);
+        List<SecurityScheme> result = new ArrayList<>();
+        ApiKey apiKey = new ApiKey("Authorization", "Authorization", "header");
+        result.add(apiKey);
+        return result;
     }
 
     /**
      * 授权信息全局应用
      */
     private List<SecurityContext> securityContexts() {
-        return Collections.singletonList(
-                SecurityContext.builder()
-                        .securityReferences(Collections.singletonList(new SecurityReference("BASE_TOKEN", new AuthorizationScope[]{new AuthorizationScope("global", "")})))
-                        .build()
-        );
+        //设置需要登录认证的路径
+        List<SecurityContext> result = new ArrayList<>();
+        result.add(getContextByPath("/brand/.*"));
+        return result;
+    }
+
+    private SecurityContext getContextByPath(String pathRegex){
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.regex(pathRegex))
+                .build();
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        List<SecurityReference> result = new ArrayList<>();
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        result.add(new SecurityReference("Authorization", authorizationScopes));
+        return result;
     }
 
     @SafeVarargs
