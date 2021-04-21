@@ -27,6 +27,25 @@ $ docker run --name webserver -d -p 81:80 nginx
 -p 81:80 将该容器的80端口指定到本机的81端口
 --name 重命名
 ```
+```
+查看启动的容器信息
+$ docker ps
+
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                     NAMES
+e9c4c8d66891   redis     "docker-entrypoint.s…"   4 minutes ago   Up 4 minutes   0.0.0.0:63791->6379/tcp   redis-slave
+4aa6f7be6a03   redis     "docker-entrypoint.s…"   4 minutes ago   Up 4 minutes   0.0.0.0:63790->6379/tcp   redis-master
+
+查看所有容器信息, -a 列出所有容器，包含未启动的 ,与 docker container ls -a
+$ docker ps -a
+CONTAINER ID   IMAGE                 COMMAND                  CREATED        STATUS                     PORTS                                                                                              NAMES
+e9c4c8d66891   redis                 "docker-entrypoint.s…"   24 hours ago   Up 24 hours                0.0.0.0:63791->6379/tcp                                                                            redis-slave
+4aa6f7be6a03   redis                 "docker-entrypoint.s…"   24 hours ago   Up 24 hours                0.0.0.0:63790->6379/tcp                                                                            redis-master
+894b9a51d14a   jenkinsci/blueocean   "/sbin/tini -- /usr/…"   4 weeks ago    Exited (143) 4 weeks ago                                                                                                      jenkins-blueocean
+ae3df610d916   rabbitmq              "docker-entrypoint.s…"   5 weeks ago    Exited (255) 4 weeks ago   4369/tcp, 0.0.0.0:5672->5672/tcp, 5671/tcp, 15691-15692/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp   rabbitmq
+cc8f8dca553c   mongo                 "docker-entrypoint.s…"   5 weeks ago    Exited (0) 4 weeks ago                                                                                                        mongo
+4892f07cdf64   kibana:6.8.0          "/usr/local/bin/kiba…"   5 weeks ago    Exited (255) 4 weeks ago   0.0.0.0:5602->5601/tcp   
+```
+
 ```$xslt
 进入容器
 $ docker exec -it tomcat bash
